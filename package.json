@@ -1,0 +1,31 @@
+{
+  "name": "spa-server",
+  "version": "0.0.1",
+  "description": "Simple Node Web Server to run your SPA's (Single Page Applications)",
+  "keywords": [
+    "webserver",
+    "spa"
+  ],
+  "author": "Slava Fomin II <s.fomin@betsol.ru>",
+  "keywords": [
+    "web",
+    "middleware",
+    "connect",
+    "spa",
+    "server",
+    "http",
+    "gulp"
+  ],
+  "repository": "betsol/spa-server",
+  "license": "MIT",
+  "dependencies": {
+    "connect": "^3.3.5",
+    "serve-static": "^1.9.2",
+    "xtend": "^4.0.0"
+  },
+  "files": [
+    "lib/",
+    "README.md",
+    "index.js"
+  ]
+}
