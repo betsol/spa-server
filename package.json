@@ -3,11 +3,6 @@
   "version": "0.0.1",
   "description": "Simple Node Web Server to run your SPA's (Single Page Applications)",
   "keywords": [
-    "webserver",
-    "spa"
-  ],
-  "author": "Slava Fomin II <s.fomin@betsol.ru>",
-  "keywords": [
     "web",
     "middleware",
     "connect",
@@ -16,6 +11,7 @@
     "http",
     "gulp"
   ],
+  "author": "Slava Fomin II <s.fomin@betsol.ru>",
   "repository": "betsol/spa-server",
   "license": "MIT",
   "dependencies": {
@@ -27,5 +23,11 @@
     "lib/",
     "README.md",
     "index.js"
-  ]
+  ],
+  "devDependencies": {
+    "cheerio": "^0.19.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^2.2.1",
+    "request": "^2.54.0"
+  }
 }

@@ -9,37 +9,19 @@ Extremely simple Node Web Server based on top of [Connect][lib-connect] and
 (Single Page Applications).
 
 Just point it to your web root directory and it will serve all your static
-goodness right away! However, when missing URL is requested it returns resource
-from fallback URL (e.g. `/index.html`). Make sure to handle 404's in your SPA though.
+goodness right away! However, when missing URL is requested it performs
+smart fallback lookup (fully configurable).
 
 
 ## Usage
 
-```javascript
-var spaServer = require('spa-server');
+Please see [example #1](#example-1).
 
-spaServer({
-  path: './build',
-  port: 1337,
-  fallbackUrl: '/application.html'
-});
-```
 
 ### With Gulp
 
-This module can be invoked inside of a Gulp task for convenience:
-
-```javascript
-gulp.task('webserver', function () {
-  spaServer({
-    path: './build',
-    port: 8888,
-    fallbackUrl: '/index.html'
-  });
-});
-```
-
-Just add code above to your `gulpfile.js` and run `gulp webserver` after that.
+This module can be invoked inside of a Gulp task for convenience.
+Please see [example #1B](#example-1b).
 
 
 ## Installation
@@ -51,12 +33,169 @@ It's exactly like you've already guessed:
 
 ## Configuration
 
-| Option             | Type     | Default                                     | Description                                        
-|--------------------|----------|---------------------------------------------|-------------
-| path               | string   | `'.'`                                       | Path to your web root                              
-| fallbackUrl        | string   | `'/index.html'`                             | Forwarding URL for missing requests                
-| port               | integer  | `8888`                                      | Listening port                                     
-| serveStaticConfig  | object   | [See the code][serve-static-default-config] | Configuration object for serve-static middleware, see it's [options][lib-serve-static-options]
+| Option             | Type                               | Default                                     | Description
+|--------------------|------------------------------------|---------------------------------------------|-------------
+| path               | `string`                           | `'.'`                                       | Path to your web root
+| hostname           | `string`                           | `undefined`                                 | Hostname to listen for, *any* when not set
+| port               | `integer`                          | `8888`                                      | Listening port
+| fallback           | `string` or `object` or `function` | `undefined`                                 | Fallback lookup configuration, [see below](#fallback-lookup)
+| serveStaticConfig  | `object`                           | [See the code][serve-static-default-config] | Configuration object for serve-static middleware, see it's [options][lib-serve-static-options]
+
+
+### Fallback Lookup
+
+You can configure fallback lookup using `fallback` configuration property.
+By default, lookup functionality is disabled.
+
+If you will set `fallback` option to a **string** value, e.g.: `/index.html`,
+it will serve the specified URL for all missing (404) requests.
+You can point server to your root application file that way.
+Please see [example #1](#example-1).
+
+However, it's a valid solution, but it's not very fair to some static resources,
+cause it will serve `text/html` even if `missing.js` file was requested.
+
+To counter this, the **smart** fallback lookup was introduced. With it,
+you can specify fallback URL for each individual mime type. The server
+will do it's best to determine request's mime type by examining it's headers
+and file extension (if present in URL). Please see [example #2](#example-2).
+
+Possible mime type specifiers are:
+
+- `'{type}/{subtype}'` — matches specific type and subtype
+- `'{type}/*'` — matches all subtypes of specified type
+- `'*'` — matches everything
+
+Fallback filter will process the specified rules trying to match most explicit
+ones first and least explicit later. The order doesn't matters, but is recommended
+for readability.
+
+We are using [node mime][lib-mime] module internally to map filename extensions
+to mime types. You can also use it to specify explicit mime types,
+for better stability. Please see [example #2B](#example-2b).
+
+And for ultimate control of the fallback filter you can pass a **function**
+of your own! It will receive the standard
+[request](https://nodejs.org/api/http.html#http_http_incomingmessage) and
+[response](https://nodejs.org/api/http.html#http_class_http_serverresponse)
+objects and will need to return fallback URL.
+You can also return `null` to fallback to default 404 page.
+Please see [example #3](#example-3).
+
+
+## Examples
+
+
+### Example 1
+
+```javascript
+
+var serverFactory = require('spa-server');
+
+var server = serverFactory.create({
+  path: './build',
+  port: 80,
+  fallback: '/application.html'
+});
+
+server.start();
+
+```
+
+
+### Example 1B
+
+You can use this module inside of Gulp task for your convenience.
+
+```javascript
+
+var serverFactory = require('spa-server');
+
+gulp.task('webserver', function () {
+  var server = serverFactory.create({
+    path: './build',
+    port: 80,
+    fallback: '/application.html'
+  });
+
+  server.start();
+});
+```
+
+Just add code above to your `gulpfile.js` and run `gulp webserver` after that.
+
+
+### Example 2
+
+```javascript
+
+var serverFactory = require('spa-server');
+
+var server = serverFactory.create({
+  path: './build',
+  port: 80,
+  fallback: {
+    'text/html' : '/application.html',
+    'image/*'   : '/images/default.png',
+    '*'         : '/404.html'
+  }
+});
+
+server.start();
+
+```
+
+This configuration will serve `application.html` file for every missing
+HTML request and will serve `default.png` for every missing image.
+The `404.html` will be served for all other missing requests, e.g. `missing.js`.
+
+
+### Example 2B
+
+```javascript
+
+var serverFactory = require('spa-server');
+var mime = require('mime');
+
+var server = serverFactory.create({
+  path: './build',
+  port: 80,
+  fallback: {
+    mime.lookup('html') : '/application.html',
+    mime.lookup('js') : '/js/default.js'
+  }
+});
+
+server.start();
+
+```
+
+
+### Example 3
+
+```javascript
+
+var serverFactory = require('spa-server');
+
+var matcher = new RegExp('\\.html?$');
+
+var server = serverFactory.create({
+  path: './build',
+  port: 80,
+  fallback: function (request, response) {
+    // For all missing HTML files.
+    if (matcher.test(request.url)) {
+      // Falling back to main application file.
+      return '/application.html';
+    }
+    // Falling back to default server 404 page.
+    return null;
+  }
+});
+
+server.start();
+
+```
 
 
 ## Feedback
@@ -102,4 +241,5 @@ THE SOFTWARE.
   [lib-connect]: https://github.com/senchalabs/connect
   [lib-serve-static]: https://github.com/expressjs/serve-static
   [lib-serve-static-options]: https://github.com/expressjs/serve-static#options
+  [lib-mime]: https://github.com/broofa/node-mime
   [serve-static-default-config]: /lib/server.js#L10-L13
