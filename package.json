@@ -29,5 +29,8 @@
     "expect.js": "^0.3.1",
     "mocha": "^2.2.1",
     "request": "^2.54.0"
+  },
+  "scripts": {
+    "test": "make test"
   }
 }
