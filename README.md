@@ -1,5 +1,7 @@
 # Node SPA Server
 
+[![Build Status](https://travis-ci.org/betsol/spa-server.svg?branch=develop)](https://travis-ci.org/betsol/spa-server)
+
 <a href="#with-gulp" title="Ready to be used with Gulp">
     <img alt="Gulp ready!" src="https://img.shields.io/badge/gulp-ready-brightgreen.svg">
 </a>
