@@ -105,6 +105,79 @@ describe('Server', function () {
 
   });
 
+  context('With custom middleware', function () {
+    
+    var middleware = [
+      ['beforeStartOne',    'before', '$start'],
+      ['beforeStartTwo',    'before', '$start'],
+      ['afterStartOne',     'after',  '$start'],
+      ['afterStartTwo',     'after',  '$start'],
+
+      ['beforeStaticOne',   'before', 'serve-static'],
+      ['beforeStaticTwo',   'before', 'serve-static'],
+      ['afterStaticOne',    'after',  'serve-static'],
+      ['afterStaticTwo',    'after',  'serve-static'],
+
+      ['beforeFallbackOne', 'before', 'fallback'],
+      ['beforeFallbackTwo', 'before', 'fallback'],
+      ['afterFallbackOne',  'after',  'fallback'],
+      ['afterFallbackTwo',  'after',  'fallback'],
+
+      ['beforeEndOne',      'before', '$end'],
+      ['beforeEndTwo',      'before', '$end'],
+      ['afterEndOne',       'after',  '$end'],
+      ['afterEndTwo',       'after',  '$end']
+    ];
+
+    var calls = [];
+
+    before(function (done) {
+      var result = startServerWithConfig(buildConfig(), done);
+      server = result.server;
+      config = result.config;
+    });
+
+    after(function (done) {
+      server.stop(done);
+    });
+
+    it('supports it', function (done) {
+
+      sendRequest('/missing', function (response, body) {
+        for (var i = 0; i < middleware.length; i++) {
+          var item = middleware[i];
+          expect(calls[i]).to.be(item[0]);
+        }
+        done();
+      });
+
+    });
+
+    function buildConfig () {
+      var config = {};
+      config.middleware = [];
+      for (var i = 0; i < middleware.length; i++) {
+        var item = middleware[i];
+        var name = item[0];
+        var specifier = item[1];
+        var value = item[2];
+        var configItem = {};
+        configItem.middleware = middlewareFactory(name);
+        configItem[specifier] = value;
+        config.middleware.push(configItem);
+      }
+      return config;
+    }
+
+    function middlewareFactory (name) {
+      return function (request, response, next) {
+        calls.push(name);
+        next();
+      };
+    }
+
+  });
+
   function sendRequest (url, callback) {
     url = 'http://' + defaultServerConfig.hostname + ':' + defaultServerConfig.port + url;
     request.get(url, function (error, response, body) {
@@ -180,7 +253,7 @@ describe('Server', function () {
 
 function startServerWithConfig (config, callback) {
   var actualConfig = extend({}, defaultServerConfig, config);
-  server = serverFactory.create(actualConfig);
+  var server = serverFactory.create(actualConfig);
   server.start(callback);
   return {
     server: server,
