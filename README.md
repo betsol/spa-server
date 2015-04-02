@@ -314,6 +314,10 @@ server.start();
 
 ```
 
+**Notice:** if you place your middleware after the `$end` it still will not
+guarantee that it will be executed. Position specifier only affect the placement
+of your middleware in the Connect's stack.
+
 
 ## Feedback
 
