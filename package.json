@@ -1,18 +1,15 @@
 {
   "name": "spa-server",
   "version": "0.0.1",
-  "description": "Simple Node Web Server to run your SPA's (Single Page Applications)",
-  "keywords": [
-    "webserver",
-    "spa"
-  ],
+  "description": "Node Web Server to run your SPA's (Single Page Applications)",
   "author": "Slava Fomin II <s.fomin@betsol.ru>",
   "keywords": [
     "web",
+    "server",
+    "webserver",
     "middleware",
     "connect",
     "spa",
-    "server",
     "http",
     "gulp"
   ],
