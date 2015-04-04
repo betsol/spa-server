@@ -1,7 +1,7 @@
 {
   "name": "spa-server",
-  "version": "0.0.1",
-  "description": "Simple Node Web Server to run your SPA's (Single Page Applications)",
+  "version": "0.1.0",
+  "description": "Extensible Node Web Server to run your SPA's (Single Page Applications)",
   "keywords": [
     "web",
     "middleware",

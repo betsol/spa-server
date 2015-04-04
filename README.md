@@ -83,6 +83,7 @@ It's exactly like you've already guessed:
 You can configure fallback lookup using `fallback` configuration property.
 By default, lookup functionality is disabled.
 
+
 #### Single URL
 
 If you will set `fallback` option to a **string** value, e.g.: `/index.html`,
@@ -102,6 +103,7 @@ var server = serverFactory.create({
 server.start();
 
 ```
+
 
 #### Smart lookup
 
@@ -168,6 +170,7 @@ server.start();
 
 ```
 
+
 #### Handler function
 
 And for ultimate control of the fallback filter you can pass a **function**
@@ -210,6 +213,7 @@ option you can take full control of the webserver.
 
 Each element of the `middleware` option should be either a function or an object.
 
+
 #### Middleware as a function
 
 All `function` elements from the `middleware` list will be added before the
@@ -241,6 +245,7 @@ var server = serverFactory.create({
 server.start();
 
 ```
+
 
 #### Middleware as an object
 
@@ -319,12 +324,24 @@ guarantee that it will be executed. Position specifier only affect the placement
 of your middleware in the Connect's stack.
 
 
+## Changelog
+
+Please see the [complete changelog][changelog] for list of changes.
+
+
+## Contributors
+
+This library was made possible by [it's contributors][contributors].
+
+
 ## Feedback
 
-If you have found a bug or have another issue with the library - please [create an issue][new-issue] in this GitHub repository.
+If you have found a bug or have another issue with the library —
+please [create an issue][new-issue].
 
-If you have a question - file it with [StackOverflow][so-ask] and send me a
-link to [s.fomin@betsol.ru][email]. I will be glad to help.
+If you have a question regarding the library or it's integration with your project —
+consider asking a question at [StackOverflow][so-ask] and sending me a
+link via [E-Mail][email]. I will be glad to help.
 
 Have any ideas or propositions? Feel free to contact me by [E-Mail][email].
 
@@ -335,7 +352,7 @@ Cheers!
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Slava Fomin II
+Copyright (c) 2015 Slava Fomin II, BETTER SOLUTIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -356,6 +373,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+  [changelog]: changelog.md
+  [contributors]: https://github.com/betsol/spa-server/graphs/contributors
   [so-ask]: http://stackoverflow.com/questions/ask?tags=node.js,connect
   [email]: mailto:s.fomin@betsol.ru
   [new-issue]: https://github.com/betsol/spa-server/issues/new
