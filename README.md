@@ -5,13 +5,18 @@
     <img alt="Gulp ready!" src="https://img.shields.io/badge/gulp-ready-brightgreen.svg">
 </a>
 
-Extremely simple Node Web Server based on top of [Connect][lib-connect] and
+Extensible Node Web Server based on top of [Connect][lib-connect] and
 [serve-static][lib-serve-static] to help you run your SPA's
 (Single Page Applications).
 
 Just point it to your web root directory and it will serve all your static
 goodness right away! However, when missing URL is requested it performs
 smart fallback lookup (fully configurable).
+
+Also you can use your own [custom middleware](#custom-middleware) with it
+(or a third-party).
+
+Can be [used with Gulp](#with-gulp).
 
 
 ## Usage
