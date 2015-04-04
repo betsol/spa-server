@@ -11,7 +11,7 @@ Extensible Node Web Server based on top of [Connect][lib-connect] and
 
 Just point it to your web root directory and it will serve all your static
 goodness right away! However, when missing URL is requested it performs
-smart fallback lookup (fully configurable).
+smart [fallback lookup](#fallback-lookup) (fully configurable).
 
 Also you can use your own [custom middleware](#custom-middleware) with it
 (or a third-party).
