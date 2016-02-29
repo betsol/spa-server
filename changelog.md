@@ -1,6 +1,14 @@
 # Node SPA Server Changelog
 
 
+## Version 1.0.0
+
+(Feb 29, 2016)
+
+- Added HTTPS support
+- Stabilized API
+
+
 ## Version 0.1.0
 
 (April 04, 2015)

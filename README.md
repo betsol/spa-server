@@ -357,7 +357,7 @@ Cheers!
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Slava Fomin II, BETTER SOLUTIONS
+Copyright (c) 2015—2016 Slava Fomin II, BETTER SOLUTIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
